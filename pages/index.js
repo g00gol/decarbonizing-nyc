@@ -1,5 +1,7 @@
 import Head from "next/head";
 
+import Map from "@/components/Map";
+
 export default function Home() {
   return (
     <>
@@ -11,6 +13,7 @@ export default function Home() {
       </Head>
       <main>
         <h1 className="text-3xl">Decarbonizing NYC</h1>
+        <Map />
       </main>
     </>
   );
