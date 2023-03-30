@@ -1,8 +1,12 @@
 import Head from "next/head";
+import { useState } from "react";
 
 import Map from "@/components/Map";
+import Searchbar from "@/components/Searchbar";
 
 export default function Home() {
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   return (
     <>
       <Head>
@@ -12,8 +16,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className="text-3xl">Decarbonizing NYC</h1>
-        <Map />
+        <Searchbar setDataLoadedCallback={setDataLoaded} />
+        <Map dataLoaded={dataLoaded} />
       </main>
     </>
   );

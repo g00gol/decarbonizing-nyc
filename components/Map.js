@@ -1,66 +1,166 @@
 import { useEffect, useState } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  LoadScript,
-  Marker,
-  HeatmapLayerF,
-} from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-// import { getTrafficCounts } from "./data/";
-
-const Map = () => {
-  
+const Map = ({ dataLoaded }) => {
+  // console.log("api", process.env.NEXT_PUBLIC_GMAPS_API_KEY);
 
   // const google = window.google;
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: process.env.GMAPS_API,
+    googleMapsApiKey: process.env.GMAPS_API_KEY,
     libraries: ["visualization"],
   });
 
-  const [trafficData, setTrafficData] = useState([]);
-  const [maxTraffic, setMaxTraffic] = useState(0);
-  const [dataLoaded, setDataLoaded] = useState(false);
-
-  useEffect(() => {
-    // getTrafficCounts().then((data) => {
-    //   let max = data.reduce((prev, current) =>
-    //     Number(prev.ev_aadt_tot) > Number(current.ev_aadt_tot) ? prev : current
-    //   );
-    //   console.log(data);
-    //   setMaxTraffic(max);
-    //   setTrafficData(data);
-    //   setDataLoaded(true);
-    // });
-  }, []);
+  const darkStyles = [
+    {
+      featureType: "all",
+      elementType: "geometry",
+      stylers: [
+        {
+          color: "#202c3e",
+        },
+      ],
+    },
+    {
+      featureType: "all",
+      elementType: "labels.text.fill",
+      stylers: [
+        {
+          gamma: 0.01,
+        },
+        {
+          lightness: 20,
+        },
+        {
+          weight: "1.39",
+        },
+        {
+          color: "#ffffff",
+        },
+      ],
+    },
+    {
+      featureType: "all",
+      elementType: "labels.text.stroke",
+      stylers: [
+        {
+          weight: "0.96",
+        },
+        {
+          saturation: "9",
+        },
+        {
+          visibility: "on",
+        },
+        {
+          color: "#000000",
+        },
+      ],
+    },
+    {
+      featureType: "all",
+      elementType: "labels.icon",
+      stylers: [
+        {
+          visibility: "off",
+        },
+      ],
+    },
+    {
+      featureType: "landscape",
+      elementType: "geometry",
+      stylers: [
+        {
+          lightness: 30,
+        },
+        {
+          saturation: "9",
+        },
+        {
+          color: "#29446b",
+        },
+      ],
+    },
+    {
+      featureType: "poi",
+      elementType: "geometry",
+      stylers: [
+        {
+          saturation: 20,
+        },
+      ],
+    },
+    {
+      featureType: "poi.park",
+      elementType: "geometry",
+      stylers: [
+        {
+          lightness: 20,
+        },
+        {
+          saturation: -20,
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry",
+      stylers: [
+        {
+          lightness: 10,
+        },
+        {
+          saturation: -30,
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry.fill",
+      stylers: [
+        {
+          color: "#193a55",
+        },
+      ],
+    },
+    {
+      featureType: "road",
+      elementType: "geometry.stroke",
+      stylers: [
+        {
+          saturation: 25,
+        },
+        {
+          lightness: 25,
+        },
+        {
+          weight: "0.01",
+        },
+      ],
+    },
+    {
+      featureType: "water",
+      elementType: "all",
+      stylers: [
+        {
+          lightness: -20,
+        },
+      ],
+    },
+  ];
 
   return (
     <>
-      {isLoaded && dataLoaded ? (
+      {isLoaded ? (
         <GoogleMap
           mapContainerStyle={{
             width: "100vw",
             height: "100vh",
           }}
-          center={{ lat: 39.843864, lng: -75.01911 }}
-          zoom={10}
-        >
-          <HeatmapLayerF
-            data={trafficData.map((data) => {
-              return {
-                location: new google.maps.LatLng(
-                  Number(data.si_lat),
-                  Number(data.si_lon)
-                ),
-                weight: Number(data.ev_aadt_tot) / maxTraffic,
-              };
-            })}
-            options={{
-              radius: 20,
-            }}
-          />
-        </GoogleMap>
+          center={{ lat: 40.7501765, lng: -73.9862874 }}
+          zoom={15}
+          options={{ styles: darkStyles, disableDefaultUI: true }}
+        ></GoogleMap>
       ) : (
         <></>
       )}
