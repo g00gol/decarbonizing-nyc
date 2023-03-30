@@ -33,7 +33,9 @@ const Searchbar = ({ setDataLoadedCallback }) => {
       {ll84Data ? (
         <div className="flex flex-col items-start bg-black">
           {ll84Data.map((item) => (
-            <div className="text-white">{item.address_1}</div>
+            <div key={item.property_id} className="text-white">
+              {item.address_1}
+            </div>
           ))}
         </div>
       ) : (
