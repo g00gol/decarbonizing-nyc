@@ -15,24 +15,24 @@ const get = async (year, query, limit) => {
   query = query.trim();
 
   let api = apis.find((api) => api.key === year);
-  let { endpoint, column_name_map, query_columns } = api;
+  let { endpoint, map, queryColumns } = api;
 
-  let all_columns_string = column_name_map.map((d) => d[1]);
+  let all = map.map((d) => d[1]);
 
-  let queryString = query_columns
+  let queryString = queryColumns
     .map(
       (col, i) =>
         `UPPER(${col}) LIKE '%25${query.toUpperCase()}%25' ${
-          i + 1 === query_columns.length ? "" : "OR "
+          i + 1 === queryColumns.length ? "" : "OR "
         }`
     )
     .join("");
 
   let result = await axios.get(
-    `${endpoint}?$query=SELECT ${all_columns_string} WHERE ${queryString} LIMIT 8`
+    `${endpoint}?$query=SELECT ${all} WHERE ${queryString} LIMIT 8`
   );
 
-  return result.data;
+  return { res: result.data, cols: queryColumns };
 };
 
 export { get };
