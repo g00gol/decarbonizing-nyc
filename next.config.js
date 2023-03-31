@@ -5,10 +5,8 @@ module.exports = {
   webpack: (config) => {
     config.plugins.push(
       new webpack.ProvidePlugin({
-        "process.env.GMAPS_API_KEY": [
-          "AIzaSyB8LTpCq1N5PKUGZ1g6WC_yA_ZCR9C3UJk",
-        ],
-        "process.env.SOCRATA_API_KEY": ["FrFcyaxEQhBU3ezjpysQbAWUZ"],
+        "process.env.GMAPS_API_KEY": "AIzaSyB8LTpCq1N5PKUGZ1g6WC_yA_ZCR9C3UJk",
+        "process.env.SOCRATA_API_KEY": "FrFcyaxEQhBU3ezjpysQbAWUZ",
       })
     );
     return config;
@@ -18,10 +16,3 @@ module.exports = {
     SOCRATA_API_KEY: process.env.SOCRATA_API_KEY,
   },
 };
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
-
-module.exports = nextConfig;
