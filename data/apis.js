@@ -2,7 +2,7 @@ let apis = [
   {
     key: "ll84_2022_cal_2021",
     endpoint: "https://data.cityofnewyork.us/resource/7x5e-2fxh.json",
-    column_name_map: [
+    map: [
       ["property_name", "property_name"],
       ["property_id", "property_id"],
       ["address_1", "address_1"],
@@ -23,22 +23,12 @@ let apis = [
       ["latitude", "latitude"],
       ["longitude", "longitude"],
     ],
-    query_columns: [
-      "property_name",
-      "nyc_borough_block_and_lot",
-      "address_1",
-      "nyc_building_identification",
-    ],
+    queryColumns: ["property_name", "address_1"],
   },
   {
     key: "ll84_2021_cal_2020",
     endpoint: "https://data.cityofnewyork.us/resource/usc3-8zwd.json",
-    query_columns: [
-      "property_name",
-      "nyc_borough_block_and_lot_bbl",
-      "address_1",
-      "nyc_building_identification_number_bin",
-    ],
+    queryColumns: ["property_name", "address_1"],
   },
 ];
 

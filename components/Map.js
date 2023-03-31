@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 
-const Map = ({ dataLoaded }) => {
-  // console.log("api", process.env.NEXT_PUBLIC_GMAPS_API_KEY);
-
-  // const google = window.google;
+const Map = ({ coords }) => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.GMAPS_API_KEY,
@@ -157,8 +154,8 @@ const Map = ({ dataLoaded }) => {
             width: "100vw",
             height: "100vh",
           }}
-          center={{ lat: 40.7501765, lng: -73.9862874 }}
-          zoom={15}
+          center={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
+          zoom={coords.default ? 15 : 17}
           options={{ styles: darkStyles, disableDefaultUI: true }}
         ></GoogleMap>
       ) : (
