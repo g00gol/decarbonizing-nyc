@@ -28,7 +28,7 @@ const Searchbar = ({ setCoordsCallback }) => {
       <div className="w-max flex flex-col items-center">
         <input
           className={
-            "text-white min-w-[25vw] p-2 bg-black/30 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-colors focus:bg-black/50" +
+            "text-white min-w-[25vw] p-2 bg-black/30 border-0 backdrop-blur rounded-lg shadow-md outline-none focus:bg-black/50" +
             (ll84Data.res.length !== 0 && query
               ? " transition-all w-full"
               : " w-[25vw]")
