@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 import Map from "@/components/Map";
 import Searchbar from "@/components/Searchbar";
+import Calculator from "@/components/Calculator";
 
 export default function Home() {
   const [coords, setCoords] = useState({
@@ -12,7 +13,7 @@ export default function Home() {
   });
 
   useEffect(() => {
-    console.log(coords);
+    // console.log(coords);
   }, [coords]);
 
   return (
@@ -25,6 +26,8 @@ export default function Home() {
       </Head>
       <main>
         <Searchbar setCoordsCallback={setCoords} />
+        <h1>Hi</h1>
+        <Calculator />
         <Map coords={coords} />
       </main>
     </>
