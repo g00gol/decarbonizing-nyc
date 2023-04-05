@@ -26,7 +26,6 @@ export default function Home() {
       </Head>
       <main>
         <Searchbar setCoordsCallback={setCoords} />
-        <h1>Hi</h1>
         <Calculator />
         <Map coords={coords} />
       </main>
