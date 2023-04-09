@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
-import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Circle,
+  Marker,
+} from "@react-google-maps/api";
 
 const Map = ({ coords }) => {
+  const [circle, setCircle] = useState(null);
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.GMAPS_API_KEY,
@@ -146,6 +153,13 @@ const Map = ({ coords }) => {
     },
   ];
 
+  useEffect(() => {
+    if (circle) {
+      // update circle position when marker position changes
+      circle.setCenter({ lat: Number(coords.lat), lng: Number(coords.lng) });
+    }
+  }, [circle, coords]);
+
   return (
     <>
       {isLoaded ? (
@@ -155,9 +169,25 @@ const Map = ({ coords }) => {
             height: "100vh",
           }}
           center={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
-          zoom={coords.default ? 15 : 17}
+          zoom={coords.default ? 15 : 16}
           options={{ styles: darkStyles, disableDefaultUI: true }}
-        ></GoogleMap>
+        >
+          <Marker
+            position={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
+          />
+          <Circle
+            center={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
+            radius={804.672} // radius in meters, 0.5 miles = 804.672 meters
+            options={{
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: "#FF0000",
+              fillOpacity: 0.35,
+            }}
+            onLoad={() => setCircle(circle)}
+          />
+        </GoogleMap>
       ) : (
         <></>
       )}
