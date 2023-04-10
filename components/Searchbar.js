@@ -14,7 +14,7 @@ const Searchbar = ({ setCoordsCallback }) => {
     let delay = debounce(() => {
       if (query) {
         ll84.get("ll84_2022_cal_2021", query, 8).then((data) => {
-          console.log(data);
+          // console.log(data);
           setll84Data(data);
         });
       }

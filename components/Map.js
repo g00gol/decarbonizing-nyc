@@ -1,13 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Papa from "papaparse";
 import {
   GoogleMap,
   useJsApiLoader,
   Circle,
   Marker,
+  InfoWindow,
 } from "@react-google-maps/api";
 
 const Map = ({ coords }) => {
+  const mapRef = useRef(null);
+
   const [circle, setCircle] = useState(null);
+  const [center, setCenter] = useState({
+    lat: Number(coords.lat),
+    lng: Number(coords.lng),
+  });
+  const [markers, setMarkers] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -153,6 +163,7 @@ const Map = ({ coords }) => {
     },
   ];
 
+  // update circle position when marker position changes
   useEffect(() => {
     if (circle) {
       // update circle position when marker position changes
@@ -160,24 +171,80 @@ const Map = ({ coords }) => {
     }
   }, [circle, coords]);
 
+  // parse CSV data and set markers state
+  useEffect(() => {
+    setCenter({ lat: Number(coords.lat), lng: Number(coords.lng) });
+
+    // load CSV data and create markers
+    const fetchData = async () => {
+      const response = await fetch("/data/heatsources.csv");
+      const reader = response.body.getReader();
+      const result = await reader.read();
+      const decoder = new TextDecoder("utf-8");
+      const csv = decoder.decode(result.value);
+      const { data } = Papa.parse(csv, { header: true });
+      const newMarkers = data.map((item) => ({
+        name: item.Name,
+        address: item.Address,
+        capacity: item["Capacity (BTU/hr)"],
+        position: {
+          lat: parseFloat(item.Latitude),
+          lng: parseFloat(item.Longitude),
+        },
+      }));
+      setMarkers(newMarkers);
+    };
+    fetchData();
+  }, [coords]);
+
   return (
     <>
       {isLoaded ? (
         <GoogleMap
+          ref={mapRef}
           mapContainerStyle={{
             width: "100vw",
             height: "100vh",
           }}
-          center={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
-          zoom={coords.default ? 15 : 16}
+          center={center}
+          zoom={coords.default ? 15 : 17}
           options={{ styles: darkStyles, disableDefaultUI: true }}
         >
+          {/* Markers of heatsources */}
+          {markers.map((marker) => (
+            <Marker
+              key={`${marker.position.lat}-${marker.position.lng}`}
+              position={marker.position}
+              onClick={() => {
+                setSelectedMarker(marker);
+                setCenter(marker.position);
+              }}
+            />
+          ))}
+
+          {selectedMarker && (
+            <InfoWindow
+              position={selectedMarker.position}
+              onCloseClick={() => {
+                setSelectedMarker(null);
+                setCenter({ lat: Number(coords.lat), lng: Number(coords.lng) });
+              }}
+            >
+              <div>
+                <h2>{selectedMarker.name}</h2>
+                <p>{selectedMarker.address}</p>
+                <p>Capacity: {selectedMarker.capacity} BTU/hr</p>
+              </div>
+            </InfoWindow>
+          )}
+
+          {/* Current location */}
           <Marker
             position={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
           />
           <Circle
             center={{ lat: Number(coords.lat), lng: Number(coords.lng) }}
-            radius={804.672} // radius in meters, 0.5 miles = 804.672 meters
+            radius={402.336 / 2} // radius in meters, 0.25 miles = 402.336 meters
             options={{
               strokeColor: "#FF0000",
               strokeOpacity: 0.8,
