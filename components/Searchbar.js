@@ -3,7 +3,7 @@ import { debounce } from "lodash";
 
 import { ll84 } from "@/data";
 
-const Searchbar = ({ setCoordsCallback }) => {
+const Searchbar = ({ setBuildingCallback, setCoordsCallback }) => {
   const inputRef = useRef(null);
   const searchResultsRef = useRef(null);
   const [query, setQuery] = useState("");
@@ -13,6 +13,7 @@ const Searchbar = ({ setCoordsCallback }) => {
   useEffect(() => {
     let delay = debounce(() => {
       if (query) {
+        setQuery(query);
         ll84.get("ll84_2022_cal_2021", query, 8).then((data) => {
           // console.log(data);
           setll84Data(data);
@@ -68,7 +69,7 @@ const Searchbar = ({ setCoordsCallback }) => {
 
         {isExpanded && ll84Data.res.length !== 0 && query ? (
           <div
-            className="mt-2 p-2 flex flex-col items-start bg-black bg-black/70 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all"
+            className="mt-2 p-2 flex flex-col items-start bg-black/70 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all"
             ref={searchResultsRef}
           >
             {ll84Data.res.map((item) => (
@@ -79,6 +80,7 @@ const Searchbar = ({ setCoordsCallback }) => {
                     lat: item.latitude,
                     lng: item.longitude,
                   });
+                  setBuildingCallback(item);
                   setIsExpanded(false);
                 }}
                 key={item.property_id}

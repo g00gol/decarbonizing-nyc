@@ -8,7 +8,7 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
-const Map = ({ coords }) => {
+const Map = ({ coords, setDstCoordsCallback }) => {
   const mapRef = useRef(null);
 
   const [circle, setCircle] = useState(null);
@@ -217,6 +217,7 @@ const Map = ({ coords }) => {
               position={marker.position}
               onClick={() => {
                 setSelectedMarker(marker);
+                setDstCoordsCallback(marker.position);
                 setCenter(marker.position);
               }}
             />

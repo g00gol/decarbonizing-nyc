@@ -1,20 +1,25 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
 
+// Icons
+import { TbZoomMoney } from "react-icons/tb";
+import { AiFillHome } from "react-icons/ai";
+
 import Map from "@/components/Map";
 import Searchbar from "@/components/Searchbar";
-import Calculator from "@/components/Calculator";
+import Cost from "@/components/Cost";
+import BuildingInfo from "@/components/BuildingInfo";
 
 export default function Home() {
+  const [toggleCost, setToggleCost] = useState(false);
+  const [toggleBuildingInfo, setToggleBuildingInfo] = useState(false);
   const [coords, setCoords] = useState({
     default: true,
     lat: 40.7501765,
     lng: -73.9862874,
   });
-
-  useEffect(() => {
-    // console.log(coords);
-  }, [coords]);
+  const [building, setBuilding] = useState(null);
+  const [dstCoords, setDstCoords] = useState(null);
 
   return (
     <>
@@ -25,9 +30,48 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Searchbar setCoordsCallback={setCoords} />
-        <Calculator />
-        <Map coords={coords} />
+        <Searchbar
+          setBuildingCallback={setBuilding}
+          setCoordsCallback={setCoords}
+        />
+
+        {!coords.default ? (
+          <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-center justify-center [&>*]:pointer-events-auto">
+            <BuildingInfo
+              toggleModal={toggleBuildingInfo}
+              toggleModalCallback={setToggleBuildingInfo}
+              buildingInfo={building}
+            />
+
+            <Cost
+              toggleModal={toggleCost}
+              toggleModalCallback={setToggleCost}
+              buildingInfo={building}
+              coords={coords}
+              dstCoords={dstCoords}
+            />
+
+            <header className="fixed place-self-start flex flex-col space-y-8 justify-start items-center p-8 h-1/2 w-[4vw] ml-2 my-auto bg-black/50 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all">
+              <button
+                className="text-white text-4xl"
+                onClick={() => setToggleBuildingInfo(!toggleBuildingInfo)}
+              >
+                <AiFillHome></AiFillHome>
+              </button>
+
+              <button
+                className="text-white text-4xl"
+                onClick={() => setToggleCost(!toggleCost)}
+              >
+                <TbZoomMoney></TbZoomMoney>
+              </button>
+            </header>
+          </div>
+        ) : (
+          <></>
+        )}
+
+        <Map coords={coords} setDstCoordsCallback={setDstCoords} />
       </main>
     </>
   );
