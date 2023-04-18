@@ -1,31 +1,31 @@
-import { useState } from "react";
-// import puppeteer from "puppeteer";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const Calculator = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // async function fetchCalculatorData() {
-  //   try {
-  //     const browser = await puppeteer.launch();
-  //     const page = await browser.newPage();
-  //     await page.goto("https://www.be-exchange.org/calculator/");
+  const fetchCalculatorData = async () => {
+    setLoading(true);
+    console.log("fetching data");
+    const res = await axios.post(
+      "/api/scrape?url=https://www.be-exchange.org/calculator/"
+    );
+    // console.log(res);
+    setData(res.data);
+    setLoading(false);
+  };
 
-  //     const addressInput = await page.waitForSelector(
-  //       ".sc-gswNZR sc-hLBbgP fkJIIU hFTahi"
-  //     );
-  //     console.log(addressInput);
+  useEffect(() => {
+    console.log("loading:", loading, "data:", data);
+  }, [loading, data]);
 
-  //     await browser.close();
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+  useEffect(() => {
+    fetchCalculatorData();
+  }, []);
 
   return (
-    <div className="">
-      {/* <button onClick={fetchCalculatorData}>Fetch Data</button> */}
-    </div>
+    <div>{/* <button onClick={fetchCalculatorData}>Fetch Data</button> */}</div>
   );
 };
 

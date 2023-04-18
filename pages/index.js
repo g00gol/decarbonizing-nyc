@@ -9,6 +9,7 @@ import Map from "@/components/Map";
 import Searchbar from "@/components/Searchbar";
 import Cost from "@/components/Cost";
 import BuildingInfo from "@/components/BuildingInfo";
+import Calculator from "@/components/Calculator";
 
 export default function Home() {
   const [toggleCost, setToggleCost] = useState(false);
@@ -34,7 +35,7 @@ export default function Home() {
           setBuildingCallback={setBuilding}
           setCoordsCallback={setCoords}
         />
-
+        <Calculator />
         {!coords.default ? (
           <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-center justify-center [&>*]:pointer-events-auto">
             <BuildingInfo
@@ -70,7 +71,6 @@ export default function Home() {
         ) : (
           <></>
         )}
-
         <Map coords={coords} setDstCoordsCallback={setDstCoords} />
       </main>
     </>
