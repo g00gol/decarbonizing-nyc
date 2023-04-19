@@ -60,7 +60,7 @@ async function scrapeWebsite(url, bin) {
   }
 
   console.log("timeout", bin);
-  await page.waitForTimeout(5000);
+  // await page.waitForTimeout(5000);
   await waitForBin(page, bin);
   // hard wait for 1 second
   await waitForButton(page);
@@ -107,15 +107,11 @@ async function scrapeWebsite(url, bin) {
   // Inside the scrapeWebsite function, after clicking the 'next' button and before the page.evaluate() call
   const chartSelector = ".chart-svg";
   const chartBoundingBox = await getBoundingBox(page, chartSelector);
-  const filepath = path.join(
-    process.cwd(),
-    "public/images",
-    "chart-screenshot.png"
-  );
+  const file = path.join("/tmp", "chart-screenshot.png");
 
   if (chartBoundingBox) {
     await page.screenshot({
-      path: filepath,
+      path: file,
       clip: chartBoundingBox,
     });
     console.log("Screenshot saved as chart-screenshot.png");
@@ -142,11 +138,6 @@ export default async function handler(req, res) {
 
   try {
     console.log("removing file");
-    const file = path.join(
-      process.cwd(),
-      "public/images",
-      "chart-screenshot.png"
-    );
     fs.unlinkSync(file);
     //file removed
   } catch (e) {
