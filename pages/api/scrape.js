@@ -32,7 +32,7 @@ async function scrapeWebsite(url, bin) {
   addressInputAfter = await page.$eval("#mui-2", (el) => el.outerHTML);
   console.log("page", addressInputAfter);
 
-  async function waitForSelector(page, bin) {
+  async function waitForBin(page, bin) {
     await page.waitForFunction(
       (binValue) => {
         const selected = document.querySelectorAll(".css-1551nx9");
@@ -46,8 +46,22 @@ async function scrapeWebsite(url, bin) {
     );
   }
 
+  async function waitForButton(page) {
+    await page.waitForFunction(
+      () => {
+        const selected = document.querySelectorAll("tr > td > .sc-iveFHk");
+        let res = Array.from(selected).some(
+          (el) => el.textContent.trim() === "Load"
+        );
+        return res;
+      },
+      { timeout: 30000, polling: 100 } // Adjust the timeout value as needed
+    );
+  }
+
   console.log("timeout", bin);
-  await waitForSelector(page, bin);
+  await waitForBin(page, bin);
+  await waitForButton(page);
   console.log("timeout done");
 
   // Get the load button
@@ -125,6 +139,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log("removing file");
     const file = path.join(
       process.cwd(),
       "public/images",
