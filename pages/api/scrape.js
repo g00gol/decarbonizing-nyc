@@ -109,9 +109,14 @@ async function scrapeWebsite(url, bin, time) {
   const chartBoundingBox = await getBoundingBox(page, chartSelector);
   const file = path.join("/tmp", `carbon-${time}.png`);
 
+  let imageBuffer = null;
   if (chartBoundingBox) {
-    await page.screenshot({
-      path: file,
+    // await page.screenshot({
+    //   path: file,
+    //   clip: chartBoundingBox,
+    // });
+    imageBuffer = await page.screenshot({
+      encoding: "binary",
       clip: chartBoundingBox,
     });
     console.log(`Screenshot carbon-${time}.png saved`);
@@ -121,7 +126,8 @@ async function scrapeWebsite(url, bin, time) {
 
   // Close the browser and return the data
   await browser.close();
-  // return data;
+  if (!imageBuffer) return;
+  return imageBuffer;
 }
 
 export default async function handler(req, res) {
@@ -137,20 +143,21 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    console.log("removing file");
-    for (const f of await fs.readdir("/tmp")) {
-      await fs.unlink(path.join("/tmp", f));
-    }
-    //file removed
-  } catch (e) {
-    console.error(e);
-  }
+  // try {
+  //   console.log("removing file");
+  //   for (const f of await fs.readdir("/tmp")) {
+  //     await fs.unlink(path.join("/tmp", f));
+  //   }
+  //   //file removed
+  // } catch (e) {
+  //   console.error(e);
+  // }
 
   try {
     console.log("scraping website");
-    await scrapeWebsite(url, bin, data);
-    return res.status(200).json(data);
+    let imageBuffer = await scrapeWebsite(url, bin, data);
+    res.setHeader("Content-Type", "image/png");
+    res.status(200).send(imageBuffer);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Failed to scrape website" });

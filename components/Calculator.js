@@ -13,10 +13,16 @@ const Calculator = ({ toggleModal, buildingInfo }) => {
     setLoaded(false);
     console.log("fetching data");
     const res = await axios.post(
-      `/api/scrape?url=https://www.be-exchange.org/calculator/&bin=${BIN}`
+      `/api/scrape?url=https://www.be-exchange.org/calculator/&bin=${BIN}`,
+      {},
+      { responseType: "arraybuffer" }
     );
+
+    const blob = new Blob([res.data], { type: "image/png" });
+    const imageUrl = URL.createObjectURL(blob);
+
     console.log(res);
-    setTime(res.data);
+    setData(imageUrl);
     setLoaded(true);
   };
 
@@ -28,11 +34,11 @@ const Calculator = ({ toggleModal, buildingInfo }) => {
   //   console.log(time);
   // }, [time]);
 
-  if (toggleModal && time) {
+  if (toggleModal) {
     if (!loaded) return <div>Loading...</div>;
     return (
       <div>
-        <img src={`/tmp/chart-${time}.png`} width={1000} height={1000} />
+        <img src={data} width={1000} height={1000} />
       </div>
     );
   }
