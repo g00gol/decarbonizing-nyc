@@ -12,8 +12,7 @@ import BuildingInfo from "@/components/BuildingInfo";
 import Calculator from "@/components/Calculator";
 
 export default function Home() {
-  const [toggleCost, setToggleCost] = useState(false);
-  const [toggleBuildingInfo, setToggleBuildingInfo] = useState(false);
+  const [toggled, setToggled] = useState("");
   const [coords, setCoords] = useState({
     default: true,
     lat: 40.7501765,
@@ -35,34 +34,43 @@ export default function Home() {
           setBuildingCallback={setBuilding}
           setCoordsCallback={setCoords}
         />
-        <Calculator />
         {!coords.default ? (
           <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-center justify-center [&>*]:pointer-events-auto">
             <BuildingInfo
-              toggleModal={toggleBuildingInfo}
-              toggleModalCallback={setToggleBuildingInfo}
+              toggleModal={toggled === "buildingInfo" ? true : false}
               buildingInfo={building}
             />
 
             <Cost
-              toggleModal={toggleCost}
-              toggleModalCallback={setToggleCost}
+              toggleModal={toggled === "cost" ? true : false}
               buildingInfo={building}
               coords={coords}
               dstCoords={dstCoords}
             />
 
+            <Calculator
+              toggleModal={toggled === "calculator" ? true : false}
+              buildingInfo={building}
+            />
+
             <header className="fixed place-self-start flex flex-col space-y-8 justify-start items-center p-8 h-1/2 w-[4vw] ml-2 my-auto bg-black/50 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all">
               <button
                 className="text-white text-4xl"
-                onClick={() => setToggleBuildingInfo(!toggleBuildingInfo)}
+                onClick={() => setToggled("buildingInfo")}
               >
                 <AiFillHome></AiFillHome>
               </button>
 
               <button
                 className="text-white text-4xl"
-                onClick={() => setToggleCost(!toggleCost)}
+                onClick={() => setToggled("calculator")}
+              >
+                <TbZoomMoney></TbZoomMoney>
+              </button>
+
+              <button
+                className="text-white text-4xl"
+                onClick={() => setToggled("cost")}
               >
                 <TbZoomMoney></TbZoomMoney>
               </button>

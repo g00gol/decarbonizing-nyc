@@ -1,3 +1,5 @@
+// https://data.cityofnewyork.us/resource/7x5e-2fxh.json?$query=SELECT%20*%20LIMIT%208
+
 let apis = [
   {
     key: "ll84_2022_cal_2021",
@@ -27,6 +29,7 @@ let apis = [
       ["electricity_onsite_generated_kbtu", "electricity_use_generated"],
       ["latitude", "latitude"],
       ["longitude", "longitude"],
+      ["occupancy", "occupancy"],
     ],
     queryColumns: ["property_name", "address_1"],
   },
