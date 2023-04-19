@@ -144,9 +144,7 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
 
   if (toggleModal) {
     return (
-      <div className="absolute w-1/2 h-5/6 bg-[#3B4252] text-white p-8">
-        Hello World
-      </div>
+      <div className="w-fit h-fit bg-[#3B4252] text-white p-8">Hello World</div>
     );
   }
 };

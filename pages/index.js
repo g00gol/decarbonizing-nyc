@@ -21,6 +21,11 @@ export default function Home() {
   const [building, setBuilding] = useState(null);
   const [dstCoords, setDstCoords] = useState(null);
 
+  function handleModalToggle(modal) {
+    if (toggled === modal) setToggled("");
+    else setToggled(modal);
+  }
+
   return (
     <>
       <Head>
@@ -35,42 +40,44 @@ export default function Home() {
           setCoordsCallback={setCoords}
         />
         {!coords.default ? (
-          <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-center justify-center [&>*]:pointer-events-auto">
-            <BuildingInfo
-              toggleModal={toggled === "buildingInfo" ? true : false}
-              buildingInfo={building}
-            />
+          <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-start justify-center [&>*]:pointer-events-auto">
+            <div className="absolute left-[5vw]">
+              <BuildingInfo
+                toggleModal={toggled === "buildingInfo" ? true : false}
+                buildingInfo={building}
+              />
 
-            <Cost
-              toggleModal={toggled === "cost" ? true : false}
-              buildingInfo={building}
-              coords={coords}
-              dstCoords={dstCoords}
-            />
+              <Cost
+                toggleModal={toggled === "cost" ? true : false}
+                buildingInfo={building}
+                coords={coords}
+                dstCoords={dstCoords}
+              />
 
-            <Calculator
-              toggleModal={toggled === "calculator" ? true : false}
-              buildingInfo={building}
-            />
+              <Calculator
+                toggleModal={toggled === "calculator" ? true : false}
+                buildingInfo={building}
+              />
+            </div>
 
             <header className="fixed place-self-start flex flex-col space-y-8 justify-start items-center p-8 h-1/2 w-[4vw] ml-2 my-auto bg-black/50 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all">
               <button
                 className="text-white text-4xl"
-                onClick={() => setToggled("buildingInfo")}
+                onClick={() => handleModalToggle("buildingInfo")}
               >
                 <AiFillHome></AiFillHome>
               </button>
 
               <button
                 className="text-white text-4xl"
-                onClick={() => setToggled("calculator")}
+                onClick={() => handleModalToggle("calculator")}
               >
                 <TbZoomMoney></TbZoomMoney>
               </button>
 
               <button
                 className="text-white text-4xl"
-                onClick={() => setToggled("cost")}
+                onClick={() => handleModalToggle("cost")}
               >
                 <TbZoomMoney></TbZoomMoney>
               </button>

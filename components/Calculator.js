@@ -4,7 +4,6 @@ import axios from "axios";
 
 const Calculator = ({ toggleModal, buildingInfo }) => {
   const [data, setData] = useState(null);
-  const [time, setTime] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
   let BIN = buildingInfo.nyc_building_identification;
