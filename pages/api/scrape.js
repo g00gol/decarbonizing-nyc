@@ -61,6 +61,8 @@ async function scrapeWebsite(url, bin) {
 
   console.log("timeout", bin);
   await waitForBin(page, bin);
+  // hard wait for 1 second
+  await page.waitForTimeout(2000);
   await waitForButton(page);
   console.log("timeout done");
 
