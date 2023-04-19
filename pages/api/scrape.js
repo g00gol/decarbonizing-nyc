@@ -2,7 +2,7 @@ import * as playwright from "playwright-aws-lambda";
 import path from "path";
 import fs from "fs";
 
-async function scrapeWebsite(url, bin) {
+async function scrapeWebsite(url, bin, time) {
   let adjustedBin = bin;
   if (bin.indexOf(";") !== -1) {
     adjustedBin = bin.split(";")[0];
@@ -107,14 +107,14 @@ async function scrapeWebsite(url, bin) {
   // Inside the scrapeWebsite function, after clicking the 'next' button and before the page.evaluate() call
   const chartSelector = ".chart-svg";
   const chartBoundingBox = await getBoundingBox(page, chartSelector);
-  const file = path.join("/tmp", "chart-screenshot.png");
+  const file = path.join("/tmp", `carbon-${time}.png`);
 
   if (chartBoundingBox) {
     await page.screenshot({
       path: file,
       clip: chartBoundingBox,
     });
-    console.log("Screenshot saved as chart-screenshot.png");
+    console.log(`Screenshot carbon-${time}.png saved`);
   } else {
     console.warn("Chart SVG not found");
   }
@@ -125,8 +125,9 @@ async function scrapeWebsite(url, bin) {
 }
 
 export default async function handler(req, res) {
+  let data = new Date().getTime();
   const { url, bin } = req.query;
-  console.log(url, bin);
+  console.log(url, bin, data);
 
   if (!url || !bin) {
     return res.status(400).json({ error: "URL and BIN are required" });
@@ -138,7 +139,9 @@ export default async function handler(req, res) {
 
   try {
     console.log("removing file");
-    fs.unlinkSync(file);
+    for (const f of await fs.readdir("/tmp")) {
+      await fs.unlink(path.join("/tmp", f));
+    }
     //file removed
   } catch (e) {
     console.error(e);
@@ -146,8 +149,7 @@ export default async function handler(req, res) {
 
   try {
     console.log("scraping website");
-    const data = await scrapeWebsite(url, bin);
-    console.log(data);
+    await scrapeWebsite(url, bin, data);
     return res.status(200).json(data);
   } catch (e) {
     console.error(e);
