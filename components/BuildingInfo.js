@@ -1,7 +1,7 @@
 const BuildingInfo = ({ toggleModal, buildingInfo }) => {
   if (toggleModal) {
     return (
-      <div className="w-fit h-fit bg-[#3B4252] text-white text-lg p-8">
+      <div className="w-fit h-fit bg-black/50 border-0 backdrop-blur rounded-lg shadow-md text-white text-lg p-8">
         <ul>
           {buildingInfo ? (
             Object.keys(buildingInfo).map((key, i) => {

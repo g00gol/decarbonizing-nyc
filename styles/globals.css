@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .toggleButton {
+    border: 1px solid #5e81ac;
+    border-radius: 8px;
+    background-color: #5e81ac;
+    color: #fff;
+    padding: 4px 6px;
+    transition: all 0.2s ease-in-out;
+  }
+  .toggleButton:hover {
+    border-color: #2e3440;
+    background-color: #2e3440;
+    color: #fff;
+  }
+}
+
 html,
 body {
   margin: 0;

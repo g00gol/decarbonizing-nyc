@@ -143,9 +143,13 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
   }, [buildingInfo, coords, dstCoords]);
 
   if (toggleModal) {
-    return (
-      <div className="w-fit h-fit bg-[#3B4252] text-white p-8">Hello World</div>
-    );
+    if (!dstCoords) {
+      return (
+        <div className="w-fit h-fit bg-black/50 border-0 backdrop-blur rounded-lg shadow-md text-white p-8">
+          Please select a heat source.
+        </div>
+      );
+    }
   }
 };
 
