@@ -1,115 +1,83 @@
 import { useEffect, useState } from "react";
+import * as data from "@/data/cost_data.js";
 import convert from "convert-units";
 
 const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
   const [perpendicularDistance, setPerpendicularDistance] = useState(0);
+  const [costBreakdown, setCostBreakdown] = useState(null);
 
   useEffect(() => {
     if (!coords || !dstCoords) return;
 
-    // Calculate the distance in meters
-    function calculateDistance(coord1, coord2) {
-      const R = 6371e3;
-      // convert to radians
-      const phi1 = (coord1.lat * Math.PI) / 180;
-      const phi2 = (coord2.lat * Math.PI) / 180;
-      const deltaPhi = ((coord2.lat - coord1.lat) * Math.PI) / 180;
-      const deltaLambda = ((coord2.lng - coord1.lng) * Math.PI) / 180;
-
-      // Haversine formula
-      const a =
-        Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2) +
-        Math.cos(phi1) *
-          Math.cos(phi2) *
-          Math.sin(deltaLambda / 2) *
-          Math.sin(deltaLambda / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-      const distance = R * c; // Perpendicular distance in meters
-      return distance;
+    /**
+     * Percent Above depending on building type
+     */
+    let percentAbove;
+    if (buildingInfo.primary_property_type === "Multifamily Housing") {
+      percentAbove = 0.28302;
+    } else if (buildingInfo.primary_property_type === "Office") {
+      percentAbove = 0.15385;
+    } else {
+      percentAbove = 0.25;
     }
-    let distance = calculateDistance(coords, dstCoords);
+
+    /**
+     * Calculate the perpendicular distance
+     */
+    let distance = data.calculateDistance(coords, dstCoords);
     let distanceInFeet = convert(distance).from("m").to("ft");
 
-    // Surveying costs [lower, upper]
+    /**
+     * Surveying costs [lower, upper]
+     */
     let surveying = [1000, 1500];
 
-    // Piping costs [lower, upper]
+    /**
+     * Piping costs [lower, upper]
+     */
     let piping = [3.62 * distanceInFeet, 3.62 * distanceInFeet]; // $3.62/ft
 
-    // Equipment costs [lower, upper]
-    if (buildingInfo.primary_property_type === "Multifamily Housing") {
-      var percentAbove = 0.28302;
-    } else if (buildingInfo.primary_property_type === "Office") {
-      var percentAbove = 0.15385;
-    } else {
-      var percentAbove = 0.25;
-    }
-
+    /**
+     * Equipment costs [lower, upper]
+     */
     // Get the total fuel oil use
-    let totalFuelOilUse = 0;
-
-    if (buildingInfo.fuel_oil_1_use_kbtu !== "Not Available") {
-      totalFuelOilUse += Number(buildingInfo.fuel_oil_1_use_kbtu);
-    }
-
-    if (buildingInfo.fuel_oil_2_use_kbtu !== "Not Available") {
-      totalFuelOilUse += Number(buildingInfo.fuel_oil_2_use_kbtu);
-    }
-
-    if (buildingInfo.fuel_oil_4_use_kbtu !== "Not Available") {
-      totalFuelOilUse += Number(buildingInfo.fuel_oil_4_use_kbtu);
-    }
-
-    if (buildingInfo.fuel_oil_5_6_use_kbtu !== "Not Available") {
-      totalFuelOilUse += Number(buildingInfo.fuel_oil_5_6_use_kbtu);
-    }
-
+    let totalFuelOilUse = data.calculateTotalFuelOilUse(buildingInfo);
     // Get the total diesel use
-    let dieselUse = 0;
-    if (buildingInfo.diesel_2_use_kbtu !== "Not Available") {
-      dieselUse = Number(buildingInfo.diesel_2_use_kbtu);
-    }
-
+    let dieselUse = data.calculateDieselUse(buildingInfo);
     // Get total propane use
-    let propaneUse = 0;
-    if (buildingInfo.propane_use_kbtu !== "Not Available") {
-      propaneUse = Number(buildingInfo.propane_use_kbtu);
-    }
-
+    let propaneUse = data.calculatePropaneUse(buildingInfo);
     // Get total natural gas use
-    let naturalGasUse = 0;
-    if (buildingInfo.natural_gas_use_kbtu !== "Not Available") {
-      naturalGasUse = Number(buildingInfo.natural_gas_use_kbtu);
-    }
+    let naturalGasUse = data.calculateNaturalGasUse(buildingInfo);
 
-    // Total fossil fuel use
+    // Calculate the number of heat pumps using total fossil fuel use
     let totalFossilFuelUse =
       totalFuelOilUse + dieselUse + propaneUse + naturalGasUse;
-
     let heatPumps = (1000 / 12) * ((percentAbove * totalFossilFuelUse) / 8760);
 
-    let fluidPumps = 6;
-    let heatExchangers = 2;
+    const fluidPumpsAmt = 6;
+    const heatExchangersAmt = 2;
+    const storageTanksAmt = 1;
 
-    let storageTanks = Number(buildingInfo.occupancy) * 7.5;
+    let storageTanks = Number(buildingInfo.occupancy) * 7.5 * 4;
 
-    let lowerEquipment =
-      heatPumps +
-      2000 * fluidPumps +
-      3000 * heatExchangers +
-      15000 * storageTanks;
+    let lowerEquipment = heatPumps + 2000 * fluidPumpsAmt;
+    3000 * heatExchangersAmt + storageTanks;
 
     let upperEquipment =
       heatPumps +
-      3000 * fluidPumps +
-      4000 * heatExchangers +
-      20000 * storageTanks;
+      3000 * fluidPumpsAmt +
+      4000 * heatExchangersAmt +
+      storageTanks;
 
     let equipment = [lowerEquipment, upperEquipment];
 
+    /**
+     * Total Installation Costs [lower, upper]
+     */
+    // Permitting is constant
     let permitting = [20000, 25000];
 
+    // Calculate excavation costs using distance
     let hours;
     if (distanceInFeet > 100) {
       hours = 0.4 * distanceInFeet;
@@ -122,24 +90,71 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
     }
     let excavation = [240 * hours, 420 * hours];
 
-    let installation;
+    // Calculate Installation using # of heat pumps, fluid pumps, heat exchangers, and storage tanks
+    let installHeatPumps = [3800, 8200];
+    let installFluidPumps = [200 * fluidPumpsAmt, 600 * fluidPumpsAmt];
+    let installHeatExchangers = [
+      2000 * heatExchangersAmt,
+      4000 * heatExchangersAmt,
+    ];
+    let installStorageTanks = [600 * storageTanksAmt, 1200 * storageTanksAmt];
 
+    let installationLower =
+      installHeatPumps[0] +
+      installFluidPumps[0] +
+      installHeatExchangers[0] +
+      installStorageTanks[0];
+
+    let installationUpper =
+      installHeatPumps[1] +
+      installFluidPumps[1] +
+      installHeatExchangers[1] +
+      installStorageTanks[1];
+
+    let installation = [installationLower, installationUpper];
+
+    // Engineering is constant
     let engineering = [16000, 20000];
 
-    let totalInstallation =
-      permitting + excavation + installation + engineering;
+    // Total Installation
+    let totalInstallation = [
+      permitting[0] + excavation[0] + installation[0] + engineering[0],
+      permitting[1] + excavation[1] + installation[1] + engineering[1],
+    ];
 
-    let cost;
+    // Total Cost
+    let totalCost = [
+      surveying[0] + piping[0] + equipment[0] + totalInstallation[0],
+      surveying[1] + piping[1] + equipment[1] + totalInstallation[1],
+    ];
 
+    console.log(`total cost: ${totalCost} =`);
     console.log(
-      `totalFuelOilUse: ${totalFuelOilUse},\n dieselUse: ${dieselUse},\n propaneUse: ${propaneUse},\n naturalGasUse: ${naturalGasUse},\n totalFossilFuelUse: ${totalFossilFuelUse},\n %above: ${percentAbove},\n heatPumpsCost: ${heatPumps}, fluidPumpsCost: ${fluidPumps}, heatExchangersCost: ${heatExchangers}, storageTanksCost: ${storageTanks},\n lowerEquipmentCost: ${lowerEquipment}, upperEquipmentCost: ${upperEquipment},\n permittingCost: ${permitting}, excavationCost: ${excavation}, installationCost: ${installation}, engineeringCost: ${engineering},\n totalInstallationCost: ${totalInstallation}`
+      `surveying: ${surveying}\npiping: ${piping}\nequipment: ${equipment}\ntotalInstallation: ${totalInstallation}\n`
     );
     console.log(
       `distance: ${distance} meters, distanceInFeet: ${distanceInFeet}, buildingInfo:`
     );
     console.log(buildingInfo);
 
-    setPerpendicularDistance(distanceInFeet);
+    let res = data.convertToDollarString({
+      totalCost,
+      surveying,
+      piping,
+      equipment,
+      totalInstallation,
+    });
+
+    ({ totalCost, surveying, piping, equipment, totalInstallation } = res);
+
+    setPerpendicularDistance(distanceInFeet.toFixed(4));
+    setCostBreakdown({
+      totalCost,
+      surveying,
+      piping,
+      equipment,
+      totalInstallation,
+    });
   }, [buildingInfo, coords, dstCoords]);
 
   if (toggleModal) {
@@ -150,6 +165,61 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
         </div>
       );
     }
+
+    if (!costBreakdown) {
+      return (
+        <div className="w-fit h-fit bg-black/50 border-0 backdrop-blur rounded-lg shadow-md text-white p-8">
+          Loading...
+        </div>
+      );
+    }
+
+    return (
+      <div className="modal space-y-4">
+        <h1>Distance: {perpendicularDistance} ft</h1>
+
+        <table className="">
+          <thead>
+            <tr>
+              <th>Breakdown</th>
+              <th>Lower Estimate</th>
+              <th>Upper Estimate</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Surveying</td>
+              <td>{costBreakdown.surveying[0]}</td>
+              <td>{costBreakdown.surveying[1]}</td>
+            </tr>
+            <tr>
+              <td>Piping</td>
+              <td>{costBreakdown.piping[0]}</td>
+              <td>{costBreakdown.piping[1]}</td>
+            </tr>
+            <tr>
+              <td>Equipment</td>
+              <td>{costBreakdown.equipment[0]}</td>
+              <td>{costBreakdown.equipment[1]}</td>
+            </tr>
+            <tr>
+              <td>Installation</td>
+              <td>{costBreakdown.totalInstallation[0]}</td>
+              <td>{costBreakdown.totalInstallation[1]}</td>
+            </tr>
+          </tbody>
+
+          <tfoot>
+            <tr>
+              <td>Total Cost</td>
+              <td>{costBreakdown.totalCost[0]}</td>
+              <td>{costBreakdown.totalCost[1]}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    );
   }
 };
 
