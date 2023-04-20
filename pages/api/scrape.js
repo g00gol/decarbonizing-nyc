@@ -107,14 +107,9 @@ async function scrapeWebsite(url, bin, time) {
   // Inside the scrapeWebsite function, after clicking the 'next' button and before the page.evaluate() call
   const chartSelector = ".chart-svg";
   const chartBoundingBox = await getBoundingBox(page, chartSelector);
-  const file = path.join("/tmp", `carbon-${time}.png`);
 
   let imageBuffer = null;
   if (chartBoundingBox) {
-    // await page.screenshot({
-    //   path: file,
-    //   clip: chartBoundingBox,
-    // });
     imageBuffer = await page.screenshot({
       encoding: "binary",
       clip: chartBoundingBox,
@@ -124,10 +119,42 @@ async function scrapeWebsite(url, bin, time) {
     console.warn("Chart SVG not found");
   }
 
+  async function waitForCostButton(page) {
+    await page.waitForFunction(
+      () => {
+        const buttons = document.querySelectorAll(".fClbry");
+        return Array.from(buttons).some(
+          (button) => button.textContent.trim() === "cost"
+        );
+      },
+      { timeout: 5000 } // Adjust the timeout value as needed
+    );
+  }
+
+  console.log("timeout");
+  await waitForCostButton(page);
+  console.log("timeout done");
+
+  const costElement = await page.$(".fClbry");
+
+  if (!costElement) return;
+  await costElement.click();
+
+  let imageBuffer2 = null;
+  if (chartBoundingBox) {
+    imageBuffer2 = await page.screenshot({
+      encoding: "binary",
+      clip: chartBoundingBox,
+    });
+    console.log(`Screenshot cost-${time}.png saved`);
+  } else {
+    console.warn("Chart SVG not found");
+  }
+
   // Close the browser and return the data
   await browser.close();
   if (!imageBuffer) return;
-  return imageBuffer;
+  return [imageBuffer, imageBuffer2];
 }
 
 export default async function handler(req, res) {
@@ -143,21 +170,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  // try {
-  //   console.log("removing file");
-  //   for (const f of await fs.readdir("/tmp")) {
-  //     await fs.unlink(path.join("/tmp", f));
-  //   }
-  //   //file removed
-  // } catch (e) {
-  //   console.error(e);
-  // }
-
   try {
     console.log("scraping website");
-    let imageBuffer = await scrapeWebsite(url, bin, data);
-    res.setHeader("Content-Type", "image/png");
-    res.status(200).send(imageBuffer);
+    let imageBuffers = await scrapeWebsite(url, bin, data);
+    res.setHeader("Content-Type", "application/png");
+    res.status(200).json({
+      carbon: imageBuffers[0].toString("base64"),
+      cost: imageBuffers[1].toString("base64"),
+    });
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Failed to scrape website" });

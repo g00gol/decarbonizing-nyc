@@ -228,6 +228,7 @@ const Map = ({ coords, setDstCoordsCallback }) => {
               position={selectedMarker.position}
               onCloseClick={() => {
                 setSelectedMarker(null);
+                setDstCoordsCallback(null);
                 setCenter({ lat: Number(coords.lat), lng: Number(coords.lng) });
               }}
             >

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // Icons
 import { TbZoomMoney } from "react-icons/tb";
 import { AiFillHome } from "react-icons/ai";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 import Map from "@/components/Map";
 import Searchbar from "@/components/Searchbar";
@@ -12,7 +13,7 @@ import BuildingInfo from "@/components/BuildingInfo";
 import Calculator from "@/components/Calculator";
 
 export default function Home() {
-  const [toggled, setToggled] = useState("");
+  const [toggled, setToggled] = useState("buildingInfo");
   const [coords, setCoords] = useState({
     default: true,
     lat: 40.7501765,
@@ -79,7 +80,7 @@ export default function Home() {
                 className="text-white text-4xl"
                 onClick={() => handleModalToggle("cost")}
               >
-                <TbZoomMoney></TbZoomMoney>
+                <FaRegMoneyBillAlt></FaRegMoneyBillAlt>
               </button>
             </header>
           </div>
