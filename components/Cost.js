@@ -114,7 +114,7 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
     let installation = [installationLower, installationUpper];
 
     // Engineering is constant
-    let engineering = [16000, 20000];
+    let engineering = [32000, 40000];
 
     // Total Installation
     let totalInstallation = [
