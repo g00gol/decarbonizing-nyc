@@ -46,14 +46,9 @@ const Calculator = ({ toggleModal, buildingInfo }) => {
   }
 
   if (toggleModal) {
-    if (!loaded)
-      return (
-        <div className="w-fit h-fit bg-black/50 border-0 backdrop-blur rounded-lg shadow-md text-white p-8">
-          Loading...
-        </div>
-      );
+    if (!loaded) return <div className="modal">Loading...</div>;
     return (
-      <div className="w-full h-full p-8 bg-black/50 border-0 backdrop-blur rounded-lg shadow-md space-y-4">
+      <div className="modal space-y-4">
         <span className="space-x-4">
           <button
             className={
