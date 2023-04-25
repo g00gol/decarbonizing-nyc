@@ -18,8 +18,8 @@ export default function Home() {
         <section className="section">
           <h2>Mission Statement</h2>
           <p className="font-bold text-center">
-            Our team is working hard to build New York City's first ever transit
-            heat recovery system to providing a clean source of heat and
+            Our team is working hard to build New York City&apos;s first ever
+            transit heat recovery system to providing a clean source of heat and
             eliminate carbon emissions.{" "}
           </p>
           <img src="/images/missionLogo.png" alt="mission logo" />
@@ -32,8 +32,8 @@ export default function Home() {
               <div>
                 <h3>Stevens Institute of Technology</h3>
                 <p>
-                  Stevens Institute of Technology's Senior Design class lays out
-                  deliverables regularly.
+                  Stevens Institute of Technology&apos;s Senior Design class
+                  lays out deliverables regularly.
                 </p>
               </div>
             </span>
@@ -82,10 +82,7 @@ export default function Home() {
         <section className="section">
           <h2>Have any questions?</h2>
           <p>
-            Contact{" "}
-            <a className="text-blue-700" href="mailto:dmaggio@stevens.edu">
-              dmaggio@stevens.edu
-            </a>{" "}
+            Contact <a href="mailto:dmaggio@stevens.edu">dmaggio@stevens.edu</a>{" "}
             to get more information on the project
           </p>
         </section>

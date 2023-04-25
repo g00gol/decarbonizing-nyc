@@ -73,8 +73,8 @@ export default function Team() {
           </p>
           {/* Map the images into rows of 3 images with their name and title */}
           <div className="w-full h-fit img-col-3">
-            {Object.keys(team).map((name) => (
-              <span className="flex flex-col text-center">
+            {Object.keys(team).map((name, index) => (
+              <span key={index} className="flex flex-col text-center">
                 <img src={team[name].src} alt={team[name].alt} />
                 <div>
                   <h3>{name}</h3>

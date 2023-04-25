@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // Icons
 import { TbZoomMoney } from "react-icons/tb";
-import { AiFillHome } from "react-icons/ai";
+import { AiFillHome, AiOutlineClose } from "react-icons/ai";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 
 import Map from "@/components/Map";
@@ -12,7 +12,7 @@ import Cost from "@/components/Cost";
 import BuildingInfo from "@/components/BuildingInfo";
 import Calculator from "@/components/Calculator";
 
-export default function MapPage() {
+function MapPage() {
   const [toggled, setToggled] = useState("buildingInfo");
   const [coords, setCoords] = useState({
     default: true,
@@ -21,7 +21,7 @@ export default function MapPage() {
   });
   const [building, setBuilding] = useState(null);
   const [dstCoords, setDstCoords] = useState(null);
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
 
   function handleModalToggle(modal) {
     if (toggled === modal) setToggled("");
@@ -38,8 +38,30 @@ export default function MapPage() {
       </Head>
       <main>
         {showInfo && (
-          <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-start justify-center [&>*]:pointer-events-auto">
-            
+          <div className="fixed z-20 pointer-events-auto w-screen h-screen flex justify-center bg-white/50">
+            <section className="section h-fit bg-white p-8 mt-4 border-0 rounded-md">
+              <h2>Opportunity Mapping</h2>
+              <p>
+                The team worked with a 3rd party website developer to create a
+                tool, named the Opportunity Map. This tool will helps you
+                estimate Local Law 97 fines and project cost of implementing
+                this type of system at your location. The tool draws data from
+                NYC Open Data, a database of available heat recovery sources.
+              </p>
+
+              <ol className="w-full list-decimal list-inside">
+                <li>Search for a location.</li>
+                <li>Click on a heat source within the red circle.</li>
+                <li>Use the sidebar to view various data.</li>
+              </ol>
+
+              <button
+                className="border-0 rounded-lg bg-primary text-white p-2"
+                onClick={() => setShowInfo(false)}
+              >
+                Continue
+              </button>
+            </section>
           </div>
         )}
 
@@ -99,3 +121,7 @@ export default function MapPage() {
     </>
   );
 }
+
+MapPage.hideFooter = true;
+
+export default MapPage;

@@ -42,7 +42,7 @@
   }
 
   .section {
-    @apply flex flex-col justify-center items-center space-y-8 max-w-[60%];
+    @apply flex flex-col justify-start items-center space-y-8 w-[60%] max-w-[60%];
   }
   .section h2 {
     @apply text-2xl font-bold text-primary;
@@ -52,6 +52,9 @@
   }
   .section p {
     @apply text-lg font-serif;
+  }
+  .section ul {
+    @apply list-disc list-inside space-y-4;
   }
 
   .img-col-2 {
@@ -85,7 +88,7 @@ body {
 }
 
 a {
-  color: inherit;
+  color: #008037;
   text-decoration: none;
 }
 

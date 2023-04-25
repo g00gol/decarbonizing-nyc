@@ -48,7 +48,7 @@ export default function Overview() {
             present in subway stations as transferable energy for surrounding
             buildings, the subways can effectively decarbonize the subway
             system, while bringing in revenue and contributing positively to the
-            city's greenhouse gas emissions reduction goal.
+            city&apos;s greenhouse gas emissions reduction goal.
           </p>
         </section>
 
@@ -87,8 +87,8 @@ export default function Overview() {
             The mechanical engineering program divides the senior capstone
             project into six phases. Project development is anticipated to meet
             the general objectives of each phase, which lasts for around five
-            weeks. Each phase's work list, member duties, and deliverable due
-            dates let the team keep track of progress.
+            weeks. Each phase&apos;s work list, member duties, and deliverable
+            due dates let the team keep track of progress.
           </p>
         </section>
 
