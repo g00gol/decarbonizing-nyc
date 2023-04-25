@@ -21,7 +21,7 @@ export default function PrototypeBeta() {
             infrastructure system which can not be easily prototyped. Instead,
             we are creating a scale model which will display the general layout
             of our design in our case study as well as functionally showing the
-            key process that moves the heat from the MTA's system to the
+            key process that moves the heat from the MTA&apos;s system to the
             buildings water system.
             <br />
             <br />
@@ -60,9 +60,9 @@ export default function PrototypeBeta() {
               building which will be receiving the heat.
               <br />
               <br />
-              The "ground" was constructed out of polystyrene foam, which we cut
-              into to place our hardware. The exception to this is the
-              residential building basement, which was composed of plywood
+              The &quot;ground&quot; was constructed out of polystyrene foam,
+              which we cut into to place our hardware. The exception to this is
+              the residential building basement, which was composed of plywood
               sidewalls and ceiling. The buildings were framed with wood and
               then covered in lasercut balsawood and basswood. 3D printed
               details, such as the balconies and windows, were pasted on after.
