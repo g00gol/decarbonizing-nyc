@@ -1,32 +1,6 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
-
-// Icons
-import { TbZoomMoney } from "react-icons/tb";
-import { AiFillHome } from "react-icons/ai";
-import { FaRegMoneyBillAlt } from "react-icons/fa";
-
-import Map from "@/components/Map";
-import Searchbar from "@/components/Searchbar";
-import Cost from "@/components/Cost";
-import BuildingInfo from "@/components/BuildingInfo";
-import Calculator from "@/components/Calculator";
 
 export default function Home() {
-  const [toggled, setToggled] = useState("buildingInfo");
-  const [coords, setCoords] = useState({
-    default: true,
-    lat: 40.7501765,
-    lng: -73.9862874,
-  });
-  const [building, setBuilding] = useState(null);
-  const [dstCoords, setDstCoords] = useState(null);
-
-  function handleModalToggle(modal) {
-    if (toggled === modal) setToggled("");
-    else setToggled(modal);
-  }
-
   return (
     <>
       <Head>
@@ -35,59 +9,86 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Searchbar
-          setBuildingCallback={setBuilding}
-          setCoordsCallback={setCoords}
-        />
-        {!coords.default ? (
-          <div className="fixed z-10 pointer-events-none w-screen h-screen flex flex-col items-start justify-center [&>*]:pointer-events-auto">
-            <div className="absolute left-[5vw]">
-              <BuildingInfo
-                toggleModal={toggled === "buildingInfo" ? true : false}
-                buildingInfo={building}
-              />
+      <main className="main">
+        <div className="banner">
+          <div className="overlay"></div>
+          <h1>Decarbonizing New York City with Heat Recovery</h1>
+        </div>
 
-              <Cost
-                toggleModal={toggled === "cost" ? true : false}
-                buildingInfo={building}
-                coords={coords}
-                dstCoords={dstCoords}
-              />
-
-              <Calculator
-                toggleModal={toggled === "calculator" ? true : false}
-                buildingInfo={building}
-              />
-            </div>
-
-            <header className="fixed place-self-start flex flex-col space-y-8 justify-start items-center p-8 h-1/2 w-[4vw] ml-2 my-auto bg-black/50 border-0 backdrop-blur rounded-lg shadow-md outline-none transition-all">
-              <button
-                className="text-white text-4xl"
-                onClick={() => handleModalToggle("buildingInfo")}
-              >
-                <AiFillHome></AiFillHome>
-              </button>
-
-              <button
-                className="text-white text-4xl"
-                onClick={() => handleModalToggle("calculator")}
-              >
-                <TbZoomMoney></TbZoomMoney>
-              </button>
-
-              <button
-                className="text-white text-4xl"
-                onClick={() => handleModalToggle("cost")}
-              >
-                <FaRegMoneyBillAlt></FaRegMoneyBillAlt>
-              </button>
-            </header>
+        <section className="section">
+          <h2>Mission Statement</h2>
+          <p className="font-bold text-center">
+            Our team is working hard to build New York City's first ever transit
+            heat recovery system to providing a clean source of heat and
+            eliminate carbon emissions.{" "}
+          </p>
+          <img src="/images/missionLogo.png" alt="mission logo" />
+        </section>
+        <section className="section">
+          <h2>Stakeholders</h2>
+          <div className="w-full h-fit img-col-2">
+            <span>
+              <img src="/images/stevensLogo.png" alt="stevens logo" />
+              <div>
+                <h3>Stevens Institute of Technology</h3>
+                <p>
+                  Stevens Institute of Technology's Senior Design class lays out
+                  deliverables regularly.
+                </p>
+              </div>
+            </span>
+            <span>
+              <img src="/images/MTALogo.png" alt="mta logo" />
+              <div>
+                <h3>Metropolitan Transportation Authority</h3>
+                <p>
+                  The MTA has the possibility to monetize excess heat and
+                  provide buildings with alternate energy sources.
+                </p>
+              </div>
+            </span>
           </div>
-        ) : (
-          <></>
-        )}
-        <Map coords={coords} setDstCoordsCallback={setDstCoords} />
+
+          <div className="w-full h-fit img-col-2">
+            <span>
+              <img
+                src="/images/equityResident.png"
+                alt="equity residential picture"
+              />
+              <div>
+                <h3>Equity Residential</h3>
+                <p>
+                  <i>303 East 83rd Street</i>
+                  <br />
+                  <br />
+                  Equity Residential can benefit from reduced carbon emissions,
+                  LL97 Fine reductions, and energy costs.
+                </p>
+              </div>
+            </span>
+            <span>
+              <img src="/images/highmarkLogo.png" alt="highmark logo" />
+              <div>
+                <h3>Highmark</h3>
+                <p>
+                  Highmark is sponsoring the team and sets technical goals for
+                  the team to accomplish.
+                </p>
+              </div>
+            </span>
+          </div>
+        </section>
+
+        <section className="section">
+          <h2>Have any questions?</h2>
+          <p>
+            Contact{" "}
+            <a className="text-blue-700" href="mailto:dmaggio@stevens.edu">
+              dmaggio@stevens.edu
+            </a>{" "}
+            to get more information on the project
+          </p>
+        </section>
       </main>
     </>
   );

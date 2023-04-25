@@ -21,10 +21,76 @@
   .modal {
     @apply w-fit h-fit bg-black/50 border-0 backdrop-blur rounded-lg shadow-md text-white p-8;
   }
+
+  .main {
+    @apply flex flex-col justify-start items-center space-y-24;
+  }
+  .main h1 {
+    @apply my-8 text-3xl font-bold text-primary;
+  }
+
+  .banner {
+    background: url("/images/banner.jpg") no-repeat fixed center;
+    background-size: cover;
+    @apply w-screen h-[60vh] flex justify-center items-center;
+  }
+  .banner .overlay {
+    @apply w-full h-full bg-black/30 flex flex-col justify-center items-center;
+  }
+  .banner h1 {
+    @apply absolute text-5xl font-bold text-white;
+  }
+
+  .section {
+    @apply flex flex-col justify-center items-center space-y-8 max-w-[60%];
+  }
+  .section h2 {
+    @apply text-2xl font-bold text-primary;
+  }
+  .section h3 {
+    @apply text-xl font-bold;
+  }
+  .section p {
+    @apply text-lg font-serif;
+  }
+
+  .img-col-2 {
+    @apply grid grid-cols-2 gap-24;
+  }
+  .img-col-2 span {
+    @apply flex justify-center items-center space-x-8;
+  }
+  .img-col-2 span div {
+    @apply space-y-4;
+  }
+  .img-col-2 img {
+    @apply h-full w-[40%];
+  }
+
+  .img-col-3 {
+    @apply grid grid-cols-3 gap-12;
+  }
+  .img-col-3 span {
+    @apply flex justify-center items-center;
+  }
+  .img-col-3 img {
+    @apply h-full w-[70%];
+  }
 }
 
 html,
 body {
   margin: 0;
   overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.costTable th,
+td {
+  border: 1px solid white;
+  padding: 8px 12px;
 }

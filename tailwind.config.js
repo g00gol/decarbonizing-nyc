@@ -9,7 +9,14 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        nav: "20%",
+      },
+      colors: {
+        primary: "#008037",
+      },
+    },
   },
   plugins: [],
 };

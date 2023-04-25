@@ -176,45 +176,55 @@ const Cost = ({ toggleModal, buildingInfo, coords, dstCoords }) => {
 
     return (
       <div className="modal space-y-4">
-        <h1>Distance: {perpendicularDistance} ft</h1>
+        <h1>
+          Distance from Heat Source to Your Building: {perpendicularDistance} ft
+        </h1>
 
-        <table className="">
+        <table class="costTable">
           <thead>
             <tr>
               <th>Breakdown</th>
-              <th>Lower Estimate</th>
-              <th>Upper Estimate</th>
+              <th>Lower, Higher Estimate</th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
               <td>Surveying</td>
-              <td>{costBreakdown.surveying[0]}</td>
-              <td>{costBreakdown.surveying[1]}</td>
+              <td>
+                {costBreakdown.surveying[0]}, {costBreakdown.surveying[1]}
+              </td>
             </tr>
+
             <tr>
               <td>Piping</td>
-              <td>{costBreakdown.piping[0]}</td>
-              <td>{costBreakdown.piping[1]}</td>
+              <td>
+                {costBreakdown.piping[0]}, {costBreakdown.piping[1]}
+              </td>
             </tr>
+
             <tr>
               <td>Equipment</td>
-              <td>{costBreakdown.equipment[0]}</td>
-              <td>{costBreakdown.equipment[1]}</td>
+              <td>
+                {costBreakdown.equipment[0]}, {costBreakdown.equipment[1]}
+              </td>
             </tr>
+
             <tr>
               <td>Installation</td>
-              <td>{costBreakdown.totalInstallation[0]}</td>
-              <td>{costBreakdown.totalInstallation[1]}</td>
+              <td>
+                {costBreakdown.totalInstallation[0]},
+                {costBreakdown.totalInstallation[1]}
+              </td>
             </tr>
           </tbody>
 
           <tfoot>
             <tr>
               <td>Total Cost</td>
-              <td>{costBreakdown.totalCost[0]}</td>
-              <td>{costBreakdown.totalCost[1]}</td>
+              <td>
+                {costBreakdown.totalCost[0]}, {costBreakdown.totalCost[1]}
+              </td>
             </tr>
           </tfoot>
         </table>

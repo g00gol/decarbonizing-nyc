@@ -48,7 +48,7 @@ const Searchbar = ({ setBuildingCallback, setCoordsCallback }) => {
   }, [inputRef, searchResultsRef]);
 
   return (
-    <div className="z-10 w-screen fixed top-[2vw] flex flex-col items-center">
+    <div className="z-10 w-screen fixed top-4 flex flex-col items-center">
       <div className="w-max flex flex-col items-center">
         <input
           className={
