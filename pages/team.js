@@ -65,8 +65,7 @@ export default function Team() {
 
       <main class="main">
         <h1>Meet the Team</h1>
-
-        <section class="section">
+        <section className="section">
           <p className="text-center">
             The team consists of 9 Stevens Institute of Technology Students and
             a Stevens Faculty Advisor.
@@ -84,6 +83,11 @@ export default function Team() {
             ))}
           </div>
         </section>
+
+        <figure className="w-1/2">
+          <figcaption>Fig. 1 - The team</figcaption>
+          <img src="/images/team/team.jpg" alt="team photo" />
+        </figure>
       </main>
     </>
   );

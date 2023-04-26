@@ -22,7 +22,6 @@ export default function Home() {
             transit heat recovery system to providing a clean source of heat and
             eliminate carbon emissions.{" "}
           </p>
-          <img src="/images/missionLogo.png" alt="mission logo" />
         </section>
         <section className="section">
           <h2>Stakeholders</h2>

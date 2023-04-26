@@ -70,7 +70,11 @@ export default function Nav() {
                 >
                   {key} <RxCaretDown />
                 </button>
-                <div id={key} className="hidden underline transition-all">
+                <div
+                  id={key}
+                  key={key}
+                  className="hidden underline transition-all"
+                >
                   {Object.entries(value).map(([subKey, subValue]) => (
                     <Link
                       className="text-white"
