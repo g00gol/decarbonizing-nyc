@@ -23,7 +23,7 @@
   }
 
   .main {
-    @apply flex flex-col justify-start items-center space-y-24;
+    @apply flex flex-col justify-start items-center space-y-20;
   }
   .main h1 {
     @apply my-8 text-3xl font-bold text-primary;
@@ -51,10 +51,16 @@
     @apply text-xl font-bold;
   }
   .section p {
-    @apply text-lg font-serif;
+    @apply text-lg font-serif w-full;
   }
   .section ul {
-    @apply list-disc list-inside space-y-4;
+    @apply font-serif list-disc list-inside space-y-2;
+  }
+  .section ul ul {
+    @apply pl-8;
+  }
+  .section iframe {
+    @apply w-4/6 h-full;
   }
 
   .img-col-2 {
@@ -81,8 +87,21 @@
   }
 }
 
+@media only screen and (max-width: 980px) {
+  #__next * {
+    display: none;
+  }
+
+  .mobileDisabled,
+  .mobileDisabled h1 {
+    display: flex !important;
+  }
+}
+
 html,
 body {
+  width: 100vw;
+  height: 100vh;
   margin: 0;
   overflow-x: hidden;
 }

@@ -36,10 +36,7 @@ export default function NYSERDA() {
 
         <section className="section h-[50vh]">
           <h2>Eligibility Criteria Category B</h2>
-          <iframe
-            className="w-4/6 h-full"
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRK1-DEgl8p4-fNLB1-wV0WdR0RPgBuZVyq_ZVFc0WWoYANTyoAk6EsrGkHbwlJJr8rcOHvGITUsHmA/pubhtml?gid=1585526791&amp;single=true&amp;widget=true&amp;headers=false"
-          ></iframe>
+          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRK1-DEgl8p4-fNLB1-wV0WdR0RPgBuZVyq_ZVFc0WWoYANTyoAk6EsrGkHbwlJJr8rcOHvGITUsHmA/pubhtml?gid=1585526791&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
         </section>
 
         <section className="section">
@@ -110,10 +107,7 @@ export default function NYSERDA() {
 
         <section className="section h-[50vh]">
           <h2>Eligibility Criteria Category C</h2>
-          <iframe
-            className="w-4/6 h-full"
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3p7b5TcWj32uT46U6Pdz7nxiNHm1It9Lf1B8muWFxO8p-Nfvs46aod1kmhz1lgrZ_UORc8rTZFiOR/pubhtml?gid=1585526791&amp;single=true&amp;widget=true&amp;headers=false"
-          ></iframe>
+          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQ3p7b5TcWj32uT46U6Pdz7nxiNHm1It9Lf1B8muWFxO8p-Nfvs46aod1kmhz1lgrZ_UORc8rTZFiOR/pubhtml?gid=1585526791&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
         </section>
 
         <section className="section">

@@ -7,6 +7,12 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
+      <div
+        className="w-screen h-screen top-0 justify-center items-center mobileDisabled"
+        hidden
+      >
+        <h1>Mobile Site is disabled. Please visit us on a desktop!</h1>
+      </div>
       <Nav />
       <Component {...pageProps} />
       {!hideFooter && <Footer />}

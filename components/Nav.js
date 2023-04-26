@@ -7,6 +7,10 @@ const navItems = {
   Home: "/",
   "Project Overview": "/overview",
   Team: "/team",
+  "Project Progress": {
+    "Phase 1": "/progress/phase1",
+    "Phase 2": "/progress/phase2",
+  },
   Prototypes: { "Beta Prototype/Scale Model": "/prototypes/beta" },
   "Opportunity Map": "/map",
   "NYSERDA Application": "/nyserda",
@@ -73,7 +77,8 @@ export default function Nav() {
                 <div
                   id={key}
                   key={key}
-                  className="hidden underline transition-all"
+                  className="underline transition-all flex flex-col"
+                  hidden
                 >
                   {Object.entries(value).map(([subKey, subValue]) => (
                     <Link

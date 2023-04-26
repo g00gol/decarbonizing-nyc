@@ -10,7 +10,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="main">
-        <div className="banner">
+        <div className="banner z-[-10]">
           <div className="overlay"></div>
           <h1>Decarbonizing New York City with Heat Recovery</h1>
         </div>
@@ -80,7 +80,7 @@ export default function Home() {
 
         <section className="section">
           <h2>Have any questions?</h2>
-          <p>
+          <p className="text-center">
             Contact <a href="mailto:dmaggio@stevens.edu">dmaggio@stevens.edu</a>{" "}
             to get more information on the project
           </p>
