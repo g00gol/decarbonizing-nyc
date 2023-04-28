@@ -18,11 +18,11 @@ export default function ProgressPhase1() {
             in order to develop workable solutions. The first phase of the
             project was regarded as the planning phase. The team was required to
             draft a project purpose statement and perform State of the Art
-            Review. The team had to comprehend the project's requirements and
+            Review. The team had to comprehend the project&apos;s requirements and
             specifications from all the stakeholders involved.
             <br />
             <br />
-            The team's development is broken down here, week by week:
+            The team&apos;s development is broken down here, week by week:
           </p>
         </section>
 

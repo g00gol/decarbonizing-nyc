@@ -11,6 +11,7 @@ const navItems = {
     "Phase 1": "/progress/phase1",
     "Phase 2": "/progress/phase2",
   },
+  "System Design & Technical Analysis": "/design",
   Prototypes: { "Beta Prototype/Scale Model": "/prototypes/beta" },
   "Opportunity Map": "/map",
   "NYSERDA Application": "/nyserda",
