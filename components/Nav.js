@@ -12,7 +12,10 @@ const navItems = {
     "Phase 2": "/progress/phase2",
   },
   "System Design & Technical Analysis": "/design",
-  Prototypes: { "Beta Prototype/Scale Model": "/prototypes/beta" },
+  Prototypes: {
+    "Alpha Prototype": "/prototypes/alpha",
+    "Beta Prototype/Scale Model": "/prototypes/beta",
+  },
   "Opportunity Map": "/map",
   "NYSERDA Application": "/nyserda",
 };
@@ -78,7 +81,7 @@ export default function Nav() {
                 <div
                   id={key}
                   key={key}
-                  className="underline transition-all flex flex-col"
+                  className="underline transition-all flex flex-col items-center"
                   hidden
                 >
                   {Object.entries(value).map(([subKey, subValue]) => (
